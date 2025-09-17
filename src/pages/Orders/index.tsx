@@ -260,7 +260,7 @@ const OrdersPage: React.FC = () => {
       width: 100,
       render: (_, record) => (
         <span>
-          {record.items.length} {t("orders.table.itemsCount") as string}
+          {record.items.length} {t("orders.detail.itemsCount") as string}
         </span>
       ),
     },
