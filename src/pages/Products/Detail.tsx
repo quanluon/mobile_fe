@@ -244,7 +244,11 @@ const ProductDetail: React.FC = () => {
       {/* Description */}
       <Card title={t('common.description') as string} style={{ marginTop: 24 }}>
         <Paragraph>
-          {currentProduct.description || t('common.noDescription') as string}
+          <span
+            dangerouslySetInnerHTML={{
+              __html: currentProduct.description || (t('common.noDescription') as string),
+            }}
+          />
         </Paragraph>
         
         {currentProduct.shortDescription && (
