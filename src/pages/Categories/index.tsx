@@ -106,6 +106,42 @@ const Categories: React.FC = () => {
 
   const columns = [
     {
+      title: t('common.image') as string,
+      dataIndex: 'image',
+      key: 'image',
+      width: 80,
+      render: (image: string) => (
+        image ? (
+          <img
+            src={image}
+            alt="Category"
+            style={{
+              width: 40,
+              height: 40,
+              objectFit: 'cover',
+              borderRadius: 4,
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: 40,
+              height: 40,
+              backgroundColor: '#f5f5f5',
+              borderRadius: 4,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 12,
+              color: '#999',
+            }}
+          >
+            No Image
+          </div>
+        )
+      ),
+    },
+    {
       title: t('common.name') as string,
       dataIndex: 'name',
       key: 'name',

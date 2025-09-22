@@ -310,7 +310,15 @@
     "nameMaxLength": "Tên danh mục không được vượt quá 100 ký tự",
     "descriptionMaxLength": "Mô tả không được vượt quá 500 ký tự",
     "enterName": "Nhập tên danh mục",
-    "enterDescription": "Nhập mô tả danh mục"
+    "enterDescription": "Nhập mô tả danh mục",
+    "basicInfo": "Thông tin cơ bản",
+    "image": "Hình ảnh danh mục",
+    "categoryImage": "Hình ảnh danh mục",
+    "noImage": "Không có hình ảnh",
+    "imageTip": "Tải lên hình ảnh chất lượng cao (tối đa 5MB). Kích thước khuyến nghị: 400x400px hoặc lớn hơn.",
+    "createCategory": "Tạo danh mục",
+    "createSuccess": "Tạo danh mục thành công",
+    "createError": "Không thể tạo danh mục"
   },
   "orders": {
     "title": "Đơn hàng",

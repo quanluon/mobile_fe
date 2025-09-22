@@ -177,6 +177,39 @@ const CategoryDetail: React.FC = () => {
           </Card>
         </Col>
 
+        {/* Category Image */}
+        <Col xs={24} lg={8}>
+          <Card title={t('categories.categoryImage') as string}>
+            {currentCategory.image ? (
+              <div style={{ textAlign: 'center' }}>
+                <img
+                  src={currentCategory.image}
+                  alt={currentCategory.name}
+                  style={{
+                    width: '100%',
+                    maxWidth: 300,
+                    height: 'auto',
+                    borderRadius: 8,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                  }}
+                />
+              </div>
+            ) : (
+              <div
+                style={{
+                  textAlign: 'center',
+                  padding: '40px 20px',
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: 8,
+                  color: '#999',
+                }}
+              >
+                <Text type="secondary">{t('categories.noImage') as string}</Text>
+              </div>
+            )}
+          </Card>
+        </Col>
+
         {/* Metadata */}
         <Col xs={24} lg={8}>
           <Card title={t('common.metadata') as string}>

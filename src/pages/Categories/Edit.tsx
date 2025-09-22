@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Card,
   Form,
-  Input,
   Button,
-  Switch,
   Typography,
   Space,
   App,
@@ -16,9 +14,9 @@ import { useTranslation } from '../../hooks/useTranslation';
 import { categoriesApi } from '../../lib/api/categories';
 import { useCategoriesStore } from '../../stores/categories';
 import type { Category, CategoryFormData } from '../../types';
+import CategoryForm from '../../components/forms/CategoryForm';
 
 const { Title } = Typography;
-const { TextArea } = Input;
 
 const CategoryEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -52,6 +50,7 @@ const CategoryEdit: React.FC = () => {
       form.setFieldsValue({
         name: categoryData.name,
         description: categoryData.description || '',
+        image: categoryData.image || '',
         isActive: categoryData.isActive,
       });
     } catch (error: unknown) {
@@ -119,78 +118,38 @@ const CategoryEdit: React.FC = () => {
       </div>
 
       <Card>
-        <Form
+        <CategoryForm
           form={form}
-          layout="vertical"
-          onFinish={handleSubmit}
           initialValues={{
             name: category.name,
             description: category.description || '',
+            image: category.image || '',
             isActive: category.isActive,
           }}
-        >
-          <Form.Item
-            name="name"
-            label={t('common.name') as string}
-            rules={[
-              { required: true, message: t('categories.nameRequired') as string },
-              { min: 2, message: t('categories.nameMinLength') as string },
-              { max: 100, message: t('categories.nameMaxLength') as string },
-            ]}
-          >
-            <Input 
-              placeholder={t('categories.enterName') as string}
+          onSubmit={handleSubmit}
+        />
+        
+        <div style={{ marginTop: 24, textAlign: 'right' }}>
+          <Space>
+            <Button
+              type="primary"
+              htmlType="submit"
+              icon={<SaveOutlined />}
+              loading={submitting}
               size="large"
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="description"
-            label={t('common.description') as string}
-            rules={[
-              { max: 500, message: t('categories.descriptionMaxLength') as string },
-            ]}
-          >
-            <TextArea
-              rows={4}
-              placeholder={t('categories.enterDescription') as string}
-              showCount
-              maxLength={500}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="isActive"
-            label={t('common.status') as string}
-            valuePropName="checked"
-          >
-            <Switch
-              checkedChildren={t('common.active') as string}
-              unCheckedChildren={t('common.inactive') as string}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Space>
-              <Button
-                type="primary"
-                htmlType="submit"
-                icon={<SaveOutlined />}
-                loading={submitting}
-                size="large"
-              >
-                {t('common.save') as string}
-              </Button>
-              
-              <Button
-                onClick={handleBack}
-                size="large"
-              >
-                {t('common.cancel') as string}
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+              onClick={() => form.submit()}
+            >
+              {t('common.save') as string}
+            </Button>
+            
+            <Button
+              onClick={handleBack}
+              size="large"
+            >
+              {t('common.cancel') as string}
+            </Button>
+          </Space>
+        </div>
       </Card>
 
       {/* Category Information */}

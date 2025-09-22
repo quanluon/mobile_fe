@@ -303,7 +303,15 @@
     "nameMaxLength": "Category name must not exceed 100 characters",
     "descriptionMaxLength": "Description must not exceed 500 characters",
     "enterName": "Enter category name",
-    "enterDescription": "Enter category description"
+    "enterDescription": "Enter category description",
+    "basicInfo": "Basic Information",
+    "image": "Category Image",
+    "categoryImage": "Category Image",
+    "noImage": "No image available",
+    "imageTip": "Upload a high-quality image (max 5MB). Recommended size: 400x400px or larger.",
+    "createCategory": "Create Category",
+    "createSuccess": "Category created successfully",
+    "createError": "Failed to create category"
   },
   "orders": {
     "title": "Orders",

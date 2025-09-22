@@ -121,6 +121,7 @@ export interface Category {
   name: string;
   description?: string;
   slug: string;
+  image?: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -199,6 +200,7 @@ export interface BrandFormData {
 export interface CategoryFormData {
   name: string;
   description?: string;
+  image?: string;
   isActive: boolean;
 }
 
