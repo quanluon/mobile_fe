@@ -27,7 +27,7 @@ import {
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useTranslation } from "../../hooks/useTranslation";
 import { ordersApi } from "../../lib/api/orders";
 import { formatCurrency } from "../../lib/utils/currency";
@@ -170,7 +170,7 @@ const OrderDetailPage: React.FC = () => {
             />
           )}
           <div>
-            <div style={{ fontWeight: 500 }}>{record.product.name}</div>
+            <Link to={`/products/${record.product._id}`} style={{ fontWeight: 500 }}>{record.product.name}</Link>
             {record.variant && (
               <div style={{ fontSize: "12px", color: "#666" }}>
                 {record.variant.color} •{" "}
