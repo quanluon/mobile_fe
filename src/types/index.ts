@@ -177,6 +177,8 @@ export interface ProductFormData {
   category: string;
   brand: string;
   productType: ProductType;
+  basePrice: number;
+  originalBasePrice?: number;
   variants: Omit<ProductVariant, '_id' | 'createdAt' | 'updatedAt'>[];
   images: string[];
   features: string[];

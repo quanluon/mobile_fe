@@ -15,6 +15,10 @@ import { useNavigate } from "react-router-dom";
 import ProductForm from "../../components/forms/ProductForm";
 import { useTranslation } from "../../hooks/useTranslation";
 import { productsApi } from "../../lib/api/products";
+import { 
+  handleApiValidationError, 
+  cleanVariantsAndAttributes 
+} from "../../lib/utils/formHelpers";
 import type {
   ProductAttribute,
   ProductFormData,
@@ -58,32 +62,16 @@ const ProductCreate: React.FC = () => {
     try {
       setSubmitting(true);
 
-      // Prepare form data - clean up the data structure
-      const cleanVariants = (values.variants || []).map((variant) => ({
-        ...variant,
-        // Remove _id from variant attributes if they exist
-        attributes: (variant.attributes || []).map((attr) => ({
-          name: attr.name,
-          value: attr.value,
-          unit: attr.unit || "",
-          category: attr.category || "",
-        })),
-      }));
-
-      const cleanAttributes = (values.attributes || []).map((attr) => ({
-        name: attr.name,
-        value: attr.value,
-        unit: attr.unit || "",
-        category: attr.category || "",
-      }));
+      // Clean up variants and attributes
+      const { cleanVariants, cleanAttributes } = cleanVariantsAndAttributes(values);
 
       const createData: ProductFormData = {
         name: values.name,
         description: values.description,
-        shortDescription: values.shortDescription,
         category: values.category,
         brand: values.brand,
         productType: values.productType,
+        basePrice: values.basePrice,
         variants: cleanVariants,
         images: values.images || [],
         features: values.features || [],
@@ -92,9 +80,21 @@ const ProductCreate: React.FC = () => {
         isFeatured: values.isFeatured,
         isNew: values.isNew,
         tags: values.tags || [],
-        metaTitle: values.metaTitle,
-        metaDescription: values.metaDescription,
       };
+
+      // Only add optional fields if they have values
+      if (values.shortDescription?.trim()) {
+        createData.shortDescription = values.shortDescription.trim();
+      }
+      if (values.originalBasePrice) {
+        createData.originalBasePrice = values.originalBasePrice;
+      }
+      if (values.metaTitle?.trim()) {
+        createData.metaTitle = values.metaTitle.trim();
+      }
+      if (values.metaDescription?.trim()) {
+        createData.metaDescription = values.metaDescription.trim();
+      }
 
       const newProduct = await productsApi.createProduct(createData);
 
@@ -102,7 +102,14 @@ const ProductCreate: React.FC = () => {
       navigate(`/products/${newProduct.data._id}`);
     } catch (error: unknown) {
       console.error("Failed to create product:", error);
-      messageApi.error(t("products.failedToCreate") as string);
+      
+      // Handle validation errors from backend
+      const validationMessage = handleApiValidationError(error, form);
+      if (validationMessage) {
+        messageApi.error(t("products.failedToCreate") as string + ": " + validationMessage);
+      } else {
+        messageApi.error(t("products.failedToCreate") as string);
+      }
     } finally {
       setSubmitting(false);
     }

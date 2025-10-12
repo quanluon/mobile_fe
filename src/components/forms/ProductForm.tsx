@@ -387,6 +387,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       {/* Description */}
       <Card title={t("common.description") as string} className="mb-6">
         <Form.Item
+        required
           name="shortDescription"
           label={t("products.shortDescription") as string}
           rules={[

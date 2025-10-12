@@ -17,6 +17,10 @@ import ProductForm from "../../components/forms/ProductForm";
 import { useTranslation } from "../../hooks/useTranslation";
 import { productsApi } from "../../lib/api/products";
 import { useProductsStore } from "../../stores/products";
+import { 
+  handleApiValidationError, 
+  cleanVariantsAndAttributes 
+} from "../../lib/utils/formHelpers";
 import type {
   Product,
   ProductAttribute,
@@ -143,32 +147,16 @@ const ProductEdit: React.FC = () => {
     try {
       setSubmitting(true);
 
-      // Prepare form data - clean up the data structure
-      const cleanVariants = (values.variants || []).map((variant) => ({
-        ...variant,
-        // Remove _id from variant attributes if they exist
-        attributes: (variant.attributes || []).map((attr) => ({
-          name: attr.name,
-          value: attr.value,
-          unit: attr.unit || "",
-          category: attr.category || "",
-        })),
-      }));
-
-      const cleanAttributes = (values.attributes || []).map((attr) => ({
-        name: attr.name,
-        value: attr.value,
-        unit: attr.unit || "",
-        category: attr.category || "",
-      }));
+      // Clean up variants and attributes
+      const { cleanVariants, cleanAttributes } = cleanVariantsAndAttributes(values);
 
       const updateData: Partial<ProductFormData> = {
         name: values.name,
         description: values.description,
-        shortDescription: values.shortDescription,
         category: values.category,
         brand: values.brand,
         productType: values.productType,
+        basePrice: values.basePrice,
         variants: cleanVariants,
         images: values.images || [],
         features: values.features || [],
@@ -177,9 +165,21 @@ const ProductEdit: React.FC = () => {
         isFeatured: values.isFeatured,
         isNew: values.isNew,
         tags: values.tags || [],
-        metaTitle: values.metaTitle,
-        metaDescription: values.metaDescription,
       };
+
+      // Only add optional fields if they have values
+      if (values.shortDescription?.trim()) {
+        updateData.shortDescription = values.shortDescription.trim();
+      }
+      if (values.originalBasePrice) {
+        updateData.originalBasePrice = values.originalBasePrice;
+      }
+      if (values.metaTitle?.trim()) {
+        updateData.metaTitle = values.metaTitle.trim();
+      }
+      if (values.metaDescription?.trim()) {
+        updateData.metaDescription = values.metaDescription.trim();
+      }
 
       await productsApi.updateProduct(id, updateData);
 
@@ -187,7 +187,14 @@ const ProductEdit: React.FC = () => {
       navigate("/products");
     } catch (error: unknown) {
       console.error("Failed to update product:", error);
-      messageApi.error(t("products.failedToUpdate") as string);
+      
+      // Handle validation errors from backend
+      const validationMessage = handleApiValidationError(error, form);
+      if (validationMessage) {
+        messageApi.error(t("products.failedToUpdate") as string + ": " + validationMessage);
+      } else {
+        messageApi.error(t("products.failedToUpdate") as string);
+      }
     } finally {
       setSubmitting(false);
     }
