@@ -184,6 +184,7 @@
     "enterCategory": "Enter category (e.g., Display, Performance)",
     "selectCategory": "Select category",
     "variants": "Product Variants",
+    "variantsRequired": "At least one variant is required",
     "addVariant": "Add Variant",
     "variant": "Variant",
     "variantName": "Variant Name",

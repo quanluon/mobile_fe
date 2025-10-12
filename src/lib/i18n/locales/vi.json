@@ -183,6 +183,7 @@
     "enterCategory": "Nhập danh mục (ví dụ: Màn hình, Hiệu suất)",
     "selectCategory": "Chọn danh mục",
     "variants": "Biến thể sản phẩm",
+    "variantsRequired": "Cần ít nhất một biến thể",
     "addVariant": "Thêm biến thể",
     "variant": "Biến thể",
     "variantName": "Tên biến thể",

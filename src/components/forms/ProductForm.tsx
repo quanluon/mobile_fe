@@ -1,7 +1,4 @@
-import {
-  DeleteOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -27,7 +24,7 @@ import {
   ProductStatus,
   type ProductAttribute,
   type ProductType,
-  type ProductVariant
+  type ProductVariant,
 } from "../../types";
 import RichTextEditor from "../ui/RichTextEditor";
 import UploadFiles from "../ui/UploadFiles";
@@ -81,7 +78,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
       fetchCategories();
     }
   }, [brands.length, categories.length, fetchBrands, fetchCategories]);
-
 
   const { t } = useTranslation();
 
@@ -176,10 +172,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       }}
     >
       {/* Basic Information */}
-      <Card
-        title={t("products.basicInfo") as string}
-        className="mb-6"
-      >
+      <Card title={t("products.basicInfo") as string} className="mb-6">
         <Row gutter={[16, 16]}>
           <Col xs={24} md={12}>
             <Form.Item
@@ -360,10 +353,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       </Card>
 
       {/* Product Images */}
-      <Card
-        title={t("products.images") as string}
-        className="mb-6"
-      >
+      <Card title={t("products.images") as string} className="mb-6">
         <Form.Item
           name="images"
           label={t("products.mainImages") as string}
@@ -395,10 +385,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       </Card>
 
       {/* Description */}
-      <Card
-        title={t("common.description") as string}
-        className="mb-6"
-      >
+      <Card title={t("common.description") as string} className="mb-6">
         <Form.Item
           name="shortDescription"
           label={t("products.shortDescription") as string}
@@ -439,10 +426,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       </Card>
 
       {/* Features */}
-      <Card
-        title={t("products.features") as string}
-        className="mb-6"
-      >
+      <Card title={t("products.features") as string} className="mb-6">
         <Form.List name="features">
           {(fields, { add, remove }) => (
             <>
@@ -496,11 +480,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         title={t("products.attributes") as string}
         className="mb-6"
         extra={
-          <Button
-            type="dashed"
-            icon={<PlusOutlined />}
-            onClick={addAttribute}
-          >
+          <Button type="dashed" icon={<PlusOutlined />} onClick={addAttribute}>
             {t("products.addAttribute") as string}
           </Button>
         }
@@ -585,10 +565,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                           optionFilterProp="children"
                         >
                           {ATTRIBUTE_CATEGORIES.map((category) => (
-                            <Option
-                              key={category.value}
-                              value={category.value}
-                            >
+                            <Option key={category.value} value={category.value}>
                               {
                                 t(
                                   `attributeCategories.${category.value}`
@@ -620,7 +597,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
       {/* Product Variants */}
       <Card
-        title={t("products.variants") as string}
+        title={
+          <span>
+            <span style={{ color: "#ff4d4f", marginRight: "4px" }}>*</span>
+            {t("products.variants") as string}
+          </span>
+        }
         className="mb-6"
         extra={
           <Button type="dashed" icon={<PlusOutlined />} onClick={addVariant}>
@@ -636,6 +618,23 @@ const ProductForm: React.FC<ProductFormProps> = ({
             {t("products.variantsExample") as string}
           </p>
         </div>
+        <Form.Item
+          name="variants"
+          rules={[
+            {
+              validator: (_, value) => {
+                if (!value || value.length === 0) {
+                  return Promise.reject(
+                    new Error(t("products.variantsRequired") as string)
+                  );
+                }
+                return Promise.resolve();
+              },
+            },
+          ]}
+        >
+          <input type="hidden" />
+        </Form.Item>
         <Form.List name="variants">
           {(fields) => (
             <>
@@ -675,9 +674,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                         ]}
                       >
                         <Input
-                          placeholder={
-                            t("products.enterVariantName") as string
-                          }
+                          placeholder={t("products.enterVariantName") as string}
                         />
                       </Form.Item>
                     </Col>
@@ -701,14 +698,15 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     <Col xs={24} md={6}>
                       <Form.Item
                         {...restField}
+                        getValueFromEvent={(color) => {
+                          return "#" + color.toHex();
+                        }}
                         name={[name, "colorCode"]}
                         label={t("products.colorCode") as string}
                         rules={[
                           {
                             required: true,
-                            message: t(
-                              "products.colorCodeRequired"
-                            ) as string,
+                            message: t("products.colorCodeRequired") as string,
                           },
                         ]}
                       >
@@ -848,8 +846,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     >
                       <UploadFiles
                         value={
-                          form.getFieldValue(["variants", name, "images"]) ||
-                          []
+                          form.getFieldValue(["variants", name, "images"]) || []
                         }
                         onChange={(urls) => {
                           const currentVariants =
@@ -983,9 +980,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                                       <Select
                                         size="small"
                                         placeholder={
-                                          t(
-                                            "products.selectCategory"
-                                          ) as string
+                                          t("products.selectCategory") as string
                                         }
                                         allowClear
                                         showSearch
@@ -1019,10 +1014,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                                         size="small"
                                         icon={<DeleteOutlined />}
                                         onClick={() =>
-                                          removeVariantAttribute(
-                                            name,
-                                            attrName
-                                          )
+                                          removeVariantAttribute(name, attrName)
                                         }
                                         style={{ width: "100%" }}
                                       />
