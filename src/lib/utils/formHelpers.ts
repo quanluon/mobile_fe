@@ -1,4 +1,4 @@
-import { FormInstance } from 'antd';
+import type { FormInstance } from 'antd';
 
 /**
  * Handles API validation errors and sets them on the form
