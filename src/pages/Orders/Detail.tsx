@@ -28,6 +28,7 @@ import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { ORDER_STATUSES, PAYMENT_STATUSES, PAYMENT_METHODS } from "../../lib/constants";
 import { useTranslation } from "../../hooks/useTranslation";
 import { ordersApi } from "../../lib/api/orders";
 import { formatCurrency } from "../../lib/utils/currency";
@@ -50,41 +51,23 @@ const OrderDetailPage: React.FC = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [form] = Form.useForm();
 
-  // Status and payment status options
-  const statusOptions = [
-    { value: "pending", label: t("orders.status.pending"), color: "orange" },
-    { value: "confirmed", label: t("orders.status.confirmed"), color: "blue" },
-    {
-      value: "processing",
-      label: t("orders.status.processing"),
-      color: "purple",
-    },
-    { value: "shipped", label: t("orders.status.shipped"), color: "cyan" },
-    { value: "delivered", label: t("orders.status.delivered"), color: "green" },
-    { value: "cancelled", label: t("orders.status.cancelled"), color: "red" },
-  ];
+  // Status and payment status options from constants
+  const statusOptions = ORDER_STATUSES.map(status => ({
+    value: status.value,
+    label: t(status.label),
+    color: status.color
+  }));
 
-  const paymentStatusOptions = [
-    {
-      value: "pending",
-      label: t("orders.paymentStatus.pending"),
-      color: "orange",
-    },
-    { value: "paid", label: t("orders.paymentStatus.paid"), color: "green" },
-    { value: "failed", label: t("orders.paymentStatus.failed"), color: "red" },
-    {
-      value: "refunded",
-      label: t("orders.paymentStatus.refunded"),
-      color: "blue",
-    },
-  ];
+  const paymentStatusOptions = PAYMENT_STATUSES.map(status => ({
+    value: status.value,
+    label: t(status.label),
+    color: status.color
+  }));
 
-  const paymentMethodOptions = [
-    { value: "cash", label: t("orders.paymentMethods.cash") },
-    { value: "bank_transfer", label: t("orders.paymentMethods.bank_transfer") },
-    { value: "momo", label: t("orders.paymentMethods.momo") },
-    { value: "zalopay", label: t("orders.paymentMethods.zalopay") },
-  ];
+  const paymentMethodOptions = PAYMENT_METHODS.map(method => ({
+    value: method.value,
+    label: t(method.label)
+  }));
 
   // Fetch order details
   const fetchOrderDetails = async () => {

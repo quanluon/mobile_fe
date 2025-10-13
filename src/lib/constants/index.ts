@@ -159,3 +159,52 @@ export const VALIDATION = {
   MAX_NAME_LENGTH: 100,
   MAX_DESCRIPTION_LENGTH: 1000,
 } as const;
+
+// Order-related enums and constants
+export enum PaymentMethod {
+  CASH = 'cash',
+  BANK_TRANSFER = 'bank_transfer',
+  CREDIT_CARD = 'credit_card',
+  MOMO = 'momo',
+  ZALOPAY = 'zalopay'
+}
+
+export enum OrderStatus {
+  PENDING = 'pending',
+  CONFIRMED = 'confirmed',
+  PROCESSING = 'processing',
+  SHIPPED = 'shipped',
+  DELIVERED = 'delivered',
+  CANCELLED = 'cancelled'
+}
+
+export enum PaymentStatus {
+  PENDING = 'pending',
+  PAID = 'paid',
+  FAILED = 'failed',
+  REFUNDED = 'refunded'
+}
+
+export const PAYMENT_METHODS = [
+  { value: PaymentMethod.CASH, label: 'orders.paymentMethods.cash' },
+  { value: PaymentMethod.BANK_TRANSFER, label: 'orders.paymentMethods.bank_transfer' },
+  { value: PaymentMethod.CREDIT_CARD, label: 'orders.paymentMethods.credit_card' },
+  { value: PaymentMethod.MOMO, label: 'orders.paymentMethods.momo' },
+  { value: PaymentMethod.ZALOPAY, label: 'orders.paymentMethods.zalopay' },
+] as const;
+
+export const ORDER_STATUSES = [
+  { value: OrderStatus.PENDING, label: 'orders.status.pending', color: 'orange' },
+  { value: OrderStatus.CONFIRMED, label: 'orders.status.confirmed', color: 'blue' },
+  { value: OrderStatus.PROCESSING, label: 'orders.status.processing', color: 'purple' },
+  { value: OrderStatus.SHIPPED, label: 'orders.status.shipped', color: 'cyan' },
+  { value: OrderStatus.DELIVERED, label: 'orders.status.delivered', color: 'green' },
+  { value: OrderStatus.CANCELLED, label: 'orders.status.cancelled', color: 'red' },
+] as const;
+
+export const PAYMENT_STATUSES = [
+  { value: PaymentStatus.PENDING, label: 'orders.paymentStatus.pending', color: 'orange' },
+  { value: PaymentStatus.PAID, label: 'orders.paymentStatus.paid', color: 'green' },
+  { value: PaymentStatus.FAILED, label: 'orders.paymentStatus.failed', color: 'red' },
+  { value: PaymentStatus.REFUNDED, label: 'orders.paymentStatus.refunded', color: 'blue' },
+] as const;
