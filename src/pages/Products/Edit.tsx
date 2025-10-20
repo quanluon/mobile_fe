@@ -187,7 +187,7 @@ const ProductEdit: React.FC = () => {
       messageApi.success(t("products.productUpdated") as string);
       navigate("/products");
     } catch (error: unknown) {
-      logger.error({ error, productId: id, updateData }, "Failed to update product");
+      logger.error({ error, productId: id }, "Failed to update product");
       
       // Handle validation errors from backend
       const validationMessage = handleApiValidationError(error, form);

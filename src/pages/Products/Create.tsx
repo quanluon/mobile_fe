@@ -102,7 +102,7 @@ const ProductCreate: React.FC = () => {
       messageApi.success(t("products.productCreated") as string);
       navigate(`/products/${newProduct.data._id}`);
     } catch (error: unknown) {
-      logger.error({ error, createData }, "Failed to create product");
+      logger.error({ error }, "Failed to create product");
       
       // Handle validation errors from backend
       const validationMessage = handleApiValidationError(error, form);

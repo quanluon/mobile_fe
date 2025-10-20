@@ -131,7 +131,7 @@ const UploadFiles: React.FC<UploadFilesProps> = React.memo(({
       
       messageApi.success(t('upload.uploadSuccess') as string);
     } catch (error) {
-      logger.error({ error, filesCount: filesToUpload.length }, 'Upload failed');
+      logger.error({ error }, 'Upload failed');
       messageApi.error(t('upload.uploadFailed') as string);
     } finally {
       setUploading(false);

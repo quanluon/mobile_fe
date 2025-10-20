@@ -95,7 +95,7 @@ const BrandEdit: React.FC = () => {
       messageApi.success(t('brands.brandUpdated') as string);
       navigate('/brands');
     } catch (error: unknown) {
-      logger.error({ error, brandId: id, updateData }, 'Failed to update brand');
+      logger.error({ error, brandId: id }, 'Failed to update brand');
       messageApi.error(t('brands.failedToUpdate') as string);
     } finally {
       setSubmitting(false);
