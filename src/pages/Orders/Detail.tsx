@@ -33,6 +33,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { ordersApi } from "../../lib/api/orders";
 import { formatCurrency } from "../../lib/utils/currency";
 import { useOrdersStore } from "../../stores/orders";
+import { logger } from "../../lib/utils/logger";
 import type { Order, OrderItem, OrderStatus, PaymentStatus } from "../../types";
 
 const { Title, Text } = Typography;
@@ -76,7 +77,7 @@ const OrderDetailPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await ordersApi.getOrderById(id);
-      console.log("response", response);
+      logger.debug({ response, orderId: id }, "Fetched order details");
 
       setCurrentOrder(response.data);
     } catch (error: unknown) {

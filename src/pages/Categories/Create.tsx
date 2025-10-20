@@ -5,6 +5,7 @@ import { useTranslation } from '../../hooks/useTranslation';
 import { categoriesApi } from '../../lib/api/categories';
 import { type CategoryFormData } from '../../types';
 import CategoryForm from '../../components/forms/CategoryForm';
+import { logger } from '../../lib/utils/logger';
 
 const { Title } = Typography;
 
@@ -21,7 +22,7 @@ const CategoryCreate: React.FC = () => {
       navigate('/categories');
     } catch (error: unknown) {
       message.error(t('categories.createError') as string);
-      console.error('Create category error:', error);
+      logger.error({ error, values }, 'Create category error');
     }
   };
 

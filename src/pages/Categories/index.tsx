@@ -26,6 +26,7 @@ import { categoriesApi } from '../../lib/api/categories';
 import type { Category } from '../../types';
 import { MESSAGES, TABLE_CONFIG } from '../../lib/constants';
 import { useTranslation } from '../../hooks/useTranslation';
+import { logger } from '../../lib/utils/logger';
 
 type TableChangeHandler = NonNullable<TableProps<Category>['onChange']>;
 
@@ -57,7 +58,7 @@ const Categories: React.FC = () => {
       // setPagination(response.pagination);
     } catch (error: unknown) {
       message.error('Failed to fetch categories');
-      console.error('Categories fetch error:', error);
+      logger.error({ error, filters }, 'Categories fetch error');
     } finally {
       setLoading(false);
     }
@@ -88,7 +89,7 @@ const Categories: React.FC = () => {
       message.success(MESSAGES.SUCCESS.DELETE);
     } catch (error: unknown) {
       message.error('Failed to delete category');
-      console.error('Delete category error:', error);
+      logger.error({ error, categoryId: id }, 'Delete category error');
     }
   };
 
@@ -100,7 +101,7 @@ const Categories: React.FC = () => {
       message.success(`Deleted ${selectedRowKeys.length} categories successfully`);
     } catch (error: unknown) {
       message.error('Failed to delete categories');
-      console.error('Bulk delete categories error:', error);
+      logger.error({ error, categoryIds: selectedRowKeys }, 'Bulk delete categories error');
     }
   };
 

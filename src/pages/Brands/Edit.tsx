@@ -17,6 +17,7 @@ import { brandsApi } from '../../lib/api/brands';
 import { useBrandsStore } from '../../stores/brands';
 import type { Brand, BrandFormData } from '../../types';
 import UploadFile from '../../components/ui/UploadFile';
+import { logger } from '../../lib/utils/logger';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -56,7 +57,7 @@ const BrandEdit: React.FC = () => {
         setLogoUrl(brandData.logo);
       }
     } catch (error: unknown) {
-      console.error('Failed to fetch brand:', error);
+      logger.error({ error, brandId: id }, 'Failed to fetch brand');
       messageApi.error(t('brands.failedToLoad') as string);
       navigate('/brands');
     } finally {
@@ -94,7 +95,7 @@ const BrandEdit: React.FC = () => {
       messageApi.success(t('brands.brandUpdated') as string);
       navigate('/brands');
     } catch (error: unknown) {
-      console.error('Failed to update brand:', error);
+      logger.error({ error, brandId: id, updateData }, 'Failed to update brand');
       messageApi.error(t('brands.failedToUpdate') as string);
     } finally {
       setSubmitting(false);

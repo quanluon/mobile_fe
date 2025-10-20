@@ -2,6 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { uploadApi } from '../../lib/api/upload';
+import { logger } from '../../lib/utils/logger';
 
 interface RichTextEditorProps {
   value?: string;
@@ -50,7 +51,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
             quill.insertEmbed((range?.index || 1) - 1, 'image', uploadResult.publicUrl);
           }
         } catch (error) {
-          console.error('Image upload failed:', error);
+          logger.error({ error }, 'Image upload failed');
           // Remove loading text on error
           const quill = quillRef.current?.getEditor();
           if (quill) {

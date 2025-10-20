@@ -19,6 +19,7 @@ import {
   handleApiValidationError, 
   cleanVariantsAndAttributes 
 } from "../../lib/utils/formHelpers";
+import { logger } from "../../lib/utils/logger";
 import type {
   ProductAttribute,
   ProductFormData,
@@ -101,7 +102,7 @@ const ProductCreate: React.FC = () => {
       messageApi.success(t("products.productCreated") as string);
       navigate(`/products/${newProduct.data._id}`);
     } catch (error: unknown) {
-      console.error("Failed to create product:", error);
+      logger.error({ error, createData }, "Failed to create product");
       
       // Handle validation errors from backend
       const validationMessage = handleApiValidationError(error, form);

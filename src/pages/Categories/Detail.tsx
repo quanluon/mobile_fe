@@ -20,6 +20,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { categoriesApi } from '../../lib/api/categories';
 import { useCategoriesStore } from '../../stores/categories';
 import { useTranslation } from '../../hooks/useTranslation';
+import { logger } from '../../lib/utils/logger';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -47,7 +48,7 @@ const CategoryDetail: React.FC = () => {
       setCurrentCategory(category.data);
     } catch (error: unknown) {
       message.error(t('categories.failedToLoad') as string);
-      console.error('Category fetch error:', error);
+      logger.error({ error, categoryId: id }, 'Category fetch error');
       navigate('/categories');
     } finally {
       setLoading(false);
@@ -69,7 +70,7 @@ const CategoryDetail: React.FC = () => {
       navigate('/categories');
     } catch (error: unknown) {
       message.error(t('categories.failedToDelete') as string);
-      console.error('Delete category error:', error);
+      logger.error({ error, categoryId: currentCategory._id }, 'Delete category error');
     }
   };
 

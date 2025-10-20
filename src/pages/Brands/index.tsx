@@ -27,6 +27,7 @@ import { brandsApi } from '../../lib/api/brands';
 import { MESSAGES, TABLE_CONFIG } from '../../lib/constants';
 import { useBrandsStore } from '../../stores/brands';
 import type { Brand } from '../../types';
+import { logger } from '../../lib/utils/logger';
 
 type TableChangeHandler = NonNullable<TableProps<Brand>['onChange']>;
 
@@ -56,7 +57,7 @@ const Brands: React.FC = () => {
       setBrands(response.data);
     } catch (error: unknown) {
       message.error('Failed to fetch brands');
-      console.error('Brands fetch error:', error);
+      logger.error({ error, filters }, 'Brands fetch error');
     } finally {
       setLoading(false);
     }
@@ -85,7 +86,7 @@ const Brands: React.FC = () => {
       message.success(MESSAGES.SUCCESS.DELETE);
     } catch (error: unknown) {
       message.error('Failed to delete brand');
-      console.error('Delete brand error:', error);
+      logger.error({ error, brandId: id }, 'Delete brand error');
     }
   };
 
@@ -97,7 +98,7 @@ const Brands: React.FC = () => {
       message.success(`Deleted ${selectedRowKeys.length} brands successfully`);
     } catch (error: unknown) {
       message.error('Failed to delete brands');
-      console.error('Bulk delete brands error:', error);
+      logger.error({ error, brandIds: selectedRowKeys }, 'Bulk delete brands error');
     }
   };
 

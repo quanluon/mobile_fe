@@ -20,6 +20,7 @@ import { useCategoriesStore } from '../../stores/categories';
 import { useProductsStore } from '../../stores/products';
 import { useOrdersStore } from '../../stores/orders';
 import { formatCurrency } from '../../lib/utils/currency';
+import { logger } from '../../lib/utils/logger';
 
 const { Title } = Typography;
 
@@ -51,7 +52,7 @@ const Dashboard: React.FC = () => {
         useCategoriesStore.getState().setCategories(categoriesData.data);
       } catch (error: unknown) {
         message.error(t('messages.error.serverError') as string);
-        console.error('Dashboard data fetch error:', error);
+        logger.error({ error }, 'Dashboard data fetch error');
       } finally {
         setLoading(false);
       }

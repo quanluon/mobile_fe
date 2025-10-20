@@ -22,6 +22,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from '../../hooks/useTranslation';
 import { brandsApi } from '../../lib/api/brands';
 import { useBrandsStore } from '../../stores/brands';
+import { logger } from '../../lib/utils/logger';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -43,7 +44,7 @@ const BrandDetail: React.FC = () => {
       setCurrentBrand(brand);
     } catch (error: unknown) {
       message.error(t('brands.failedToLoad') as string);
-      console.error('Brand fetch error:', error);
+      logger.error({ error, brandId: id }, 'Brand fetch error');
       navigate('/brands');
     } finally {
       setLoading(false);
@@ -71,7 +72,7 @@ const BrandDetail: React.FC = () => {
       navigate('/brands');
     } catch (error: unknown) {
       message.error(t('brands.failedToDelete') as string);
-      console.error('Delete brand error:', error);
+      logger.error({ error, brandId: currentBrand._id }, 'Delete brand error');
     }
   };
 

@@ -40,6 +40,7 @@ import type {
   ProductType,
 } from "../../types";
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
+import { logger } from "../../lib/utils/logger";
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -71,7 +72,7 @@ const Products: React.FC = () => {
       setPagination({ ...response?.pagination });
     } catch (error: unknown) {
       message.error("Failed to fetch products");
-      console.error("Products fetch error:", error);
+      logger.error({ error, filters }, "Products fetch error");
     } finally {
       setLoading(false);
     }
@@ -110,7 +111,7 @@ const Products: React.FC = () => {
       message.success(MESSAGES.SUCCESS.DELETE);
     } catch (error: unknown) {
       message.error("Failed to delete product");
-      console.error("Delete product error:", error);
+      logger.error({ error, productId: id }, "Delete product error");
     }
   };
 
@@ -124,7 +125,7 @@ const Products: React.FC = () => {
       );
     } catch (error: unknown) {
       message.error("Failed to delete products");
-      console.error("Bulk delete products error:", error);
+      logger.error({ error, productIds: selectedRowKeys }, "Bulk delete products error");
     }
   };
 

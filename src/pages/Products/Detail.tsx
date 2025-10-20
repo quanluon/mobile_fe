@@ -29,6 +29,7 @@ import { productsApi } from '../../lib/api/products';
 import { PRODUCT_STATUSES } from '../../lib/constants';
 import { formatCurrency } from '../../lib/utils/currency';
 import { useProductsStore } from '../../stores/products';
+import { logger } from '../../lib/utils/logger';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -50,7 +51,7 @@ const ProductDetail: React.FC = () => {
       setCurrentProduct(product.data);
     } catch (error: unknown) {
       message.error(t('products.failedToLoad') as string);
-      console.error('Product fetch error:', error);
+      logger.error({ error, productId: id }, 'Product fetch error');
       navigate('/products');
     } finally {
       setLoading(false);
@@ -78,7 +79,7 @@ const ProductDetail: React.FC = () => {
       navigate('/products');
     } catch (error: unknown) {
       message.error(t('products.failedToDelete') as string);
-      console.error('Delete product error:', error);
+      logger.error({ error, productId: currentProduct._id }, 'Delete product error');
     }
   };
 

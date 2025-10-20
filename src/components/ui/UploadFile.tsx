@@ -5,6 +5,7 @@ import type { RcFile, UploadChangeParam, UploadFile } from 'antd/es/upload';
 import { useTranslation } from '../../hooks/useTranslation';
 import { uploadApi } from '../../lib/api/upload';
 import { processImage, isImageFile, formatFileSize, type ImageProcessingOptions } from '../../lib/utils/image';
+import { logger } from '../../lib/utils/logger';
 
 export interface UploadFileProps {
   value?: string;
@@ -115,7 +116,7 @@ const UploadFileComponent: React.FC<UploadFileProps> = ({
               }) as string
             );
           } catch (processError) {
-            console.warn('Image processing failed, using original file:', processError);
+            logger.warn({ error: processError, fileName: actualFile.name }, 'Image processing failed, using original file');
             // Continue with original file if processing fails
           } finally {
             setProcessing(false);
@@ -137,7 +138,7 @@ const UploadFileComponent: React.FC<UploadFileProps> = ({
         
         messageApi.success(t('upload.uploadSuccess') as string);
       } catch (error) {
-        console.error('Upload failed:', error);
+        logger.error({ error, fileName: actualFile.name }, 'Upload failed');
         messageApi.error(t('upload.uploadFailed') as string);
         setPreviewUrl('');
         setCompressionInfo(null);

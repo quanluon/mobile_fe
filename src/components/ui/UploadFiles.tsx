@@ -4,6 +4,7 @@ import type { UploadChangeParam, UploadFile } from 'antd/es/upload';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from '../../hooks/useTranslation';
 import { uploadApi } from '../../lib/api/upload';
+import { logger } from '../../lib/utils/logger';
 
 export interface UploadFilesProps {
   value?: string[];
@@ -130,7 +131,7 @@ const UploadFiles: React.FC<UploadFilesProps> = React.memo(({
       
       messageApi.success(t('upload.uploadSuccess') as string);
     } catch (error) {
-      console.error('Upload failed:', error);
+      logger.error({ error, filesCount: filesToUpload.length }, 'Upload failed');
       messageApi.error(t('upload.uploadFailed') as string);
     } finally {
       setUploading(false);

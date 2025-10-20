@@ -21,6 +21,7 @@ import {
   handleApiValidationError, 
   cleanVariantsAndAttributes 
 } from "../../lib/utils/formHelpers";
+import { logger } from "../../lib/utils/logger";
 import type {
   Product,
   ProductAttribute,
@@ -121,7 +122,7 @@ const ProductEdit: React.FC = () => {
       // Set the form values
       form.setFieldsValue(formData);
     } catch (error: unknown) {
-      console.error("Failed to fetch product:", error);
+      logger.error({ error, productId: id }, "Failed to fetch product");
       messageApi.error(t("products.failedToLoad") as string);
       navigate("/products");
     } finally {
@@ -186,7 +187,7 @@ const ProductEdit: React.FC = () => {
       messageApi.success(t("products.productUpdated") as string);
       navigate("/products");
     } catch (error: unknown) {
-      console.error("Failed to update product:", error);
+      logger.error({ error, productId: id, updateData }, "Failed to update product");
       
       // Handle validation errors from backend
       const validationMessage = handleApiValidationError(error, form);

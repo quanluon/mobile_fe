@@ -15,6 +15,7 @@ import { categoriesApi } from '../../lib/api/categories';
 import { useCategoriesStore } from '../../stores/categories';
 import type { Category, CategoryFormData } from '../../types';
 import CategoryForm from '../../components/forms/CategoryForm';
+import { logger } from '../../lib/utils/logger';
 
 const { Title } = Typography;
 
@@ -54,7 +55,7 @@ const CategoryEdit: React.FC = () => {
         isActive: categoryData.isActive,
       });
     } catch (error: unknown) {
-      console.error('Failed to fetch category:', error);
+      logger.error({ error, categoryId: id }, 'Failed to fetch category');
       messageApi.error(t('categories.failedToLoad') as string);
       navigate('/categories');
     } finally {
@@ -72,7 +73,7 @@ const CategoryEdit: React.FC = () => {
       messageApi.success(t('categories.categoryUpdated') as string);
       navigate('/categories');
     } catch (error: unknown) {
-      console.error('Failed to update category:', error);
+      logger.error({ error, categoryId: id, values }, 'Failed to update category');
       messageApi.error(t('categories.failedToUpdate') as string);
     } finally {
       setSubmitting(false);
