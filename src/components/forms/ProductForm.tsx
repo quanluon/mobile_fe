@@ -19,8 +19,10 @@ import {
   ATTRIBUTE_CATEGORIES,
   PRODUCT_STATUSES,
   PRODUCT_TYPES,
+  GUARANTEE_ATTRIBUTES,
 } from "../../lib/constants";
 import {
+  ProductAttributeType,
   ProductStatus,
   type ProductAttribute,
   type ProductType,
@@ -111,6 +113,21 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const addAttribute = () => {
     const currentAttributes = form.getFieldValue("attributes") || [];
     const newAttribute: Partial<ProductAttribute> = {
+      type: ProductAttributeType.CUSTOM,
+      name: "",
+      value: "",
+      unit: "",
+      category: "",
+    };
+    form.setFieldsValue({
+      attributes: [...currentAttributes, newAttribute],
+    });
+  };
+
+  const addGuaranteeAttribute = () => {
+    const currentAttributes = form.getFieldValue("attributes") || [];
+    const newAttribute: Partial<ProductAttribute> = {
+      type: ProductAttributeType.GUARANTEE,
       name: "",
       value: "",
       unit: "",
@@ -126,6 +143,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
     const variant = currentVariants[variantIndex];
     if (variant) {
       const newAttribute: Partial<ProductAttribute> = {
+        type: ProductAttributeType.CUSTOM,
         name: "",
         value: "",
         unit: "",
@@ -497,10 +515,14 @@ const ProductForm: React.FC<ProductFormProps> = ({
         <Form.List name="attributes">
           {(fields, { remove }) => (
             <>
-              {fields.map(({ key, name, ...restField }) => (
+              {fields.map(({ key, name, ...restField }) => {
+                const attributeType = form.getFieldValue(["attributes", name, "type"]);
+                if (attributeType !== "custom" && attributeType !== undefined) return null;
+                
+                return (
                 <Card key={key} size="small" className="mb-4">
                   <Row gutter={[16, 16]}>
-                    <Col xs={24} md={6}>
+                      <Col xs={24} md={5}>
                       <Form.Item
                         {...restField}
                         name={[name, "name"]}
@@ -521,7 +543,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                         />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} md={6}>
+                      <Col xs={24} md={5}>
                       <Form.Item
                         {...restField}
                         name={[name, "value"]}
@@ -542,7 +564,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                         />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} md={4}>
+                      <Col xs={24} md={3}>
                       <Form.Item
                         {...restField}
                         name={[name, "unit"]}
@@ -553,7 +575,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                         />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} md={6}>
+                      <Col xs={24} md={5}>
                       <Form.Item
                         {...restField}
                         name={[name, "category"]}
@@ -590,7 +612,157 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     </Col>
                   </Row>
                 </Card>
-              ))}
+                );
+              })}
+            </>
+          )}
+        </Form.List>
+      </Card>
+
+      {/* Warranty/Guarantee Section */}
+      <Card
+        title={
+          <span>
+            <span style={{ color: "#52c41a", marginRight: "4px" }}>🛡️</span>
+            {t("products.warrantyGuarantee") as string}
+          </span>
+        }
+        className="mb-6"
+        extra={
+          <Button type="dashed" icon={<PlusOutlined />} onClick={addGuaranteeAttribute}>
+            {t("products.addGuarantee") as string}
+          </Button>
+        }
+      >
+        <div className="p-6 text-center bg-green-50 rounded-md mb-4 border border-dashed border-green-300">
+          <p className="text-green-600 m-0 font-medium">
+            {t("products.warrantyInfo") as string}
+          </p>
+          <p className="text-green-400 text-xs mt-2 mb-0">
+            {t("products.warrantyExample") as string}
+          </p>
+        </div>
+        
+        {/* Quick Add Guarantee Options */}
+        <div className="mb-4">
+          <Typography.Title level={5} className="mb-3">
+            {t("products.quickAddGuarantee") as string}
+          </Typography.Title>
+          <Row gutter={[8, 8]}>
+            {GUARANTEE_ATTRIBUTES.map((guarantee) => (
+              <Col key={guarantee.name} xs={24} sm={12} md={8}>
+                <Button
+                  type="dashed"
+                  size="small"
+                  onClick={() => {
+                    const currentAttributes = form.getFieldValue("attributes") || [];
+                    const newAttribute: Partial<ProductAttribute> = {
+                      type: ProductAttributeType.GUARANTEE,
+                      name: guarantee.description as string,
+                      value: guarantee.defaultValue || "",
+                      unit: guarantee.unit || "",
+                      category: guarantee.category,
+                    };
+                    form.setFieldsValue({
+                      attributes: [...currentAttributes, newAttribute],
+                    });
+                  }}
+                  className="w-full text-left"
+                  title={guarantee.description as string}
+                >
+                  {guarantee.label}
+                </Button>
+              </Col>
+            ))}
+          </Row>
+        </div>
+
+        <Form.List name="attributes">
+          {(fields, { remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => {
+                const attributeType = form.getFieldValue(["attributes", name, "type"]);
+                if (attributeType !== "guarantee") return null;
+                
+                return (
+                  <Card key={key} size="small" className="mb-4 border border-green-300 bg-green-50">
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} md={12}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "name"]}
+                          label={t("products.guaranteeName") as string}
+                          rules={[
+                            {
+                              required: true,
+                              message: t("products.guaranteeNameRequired") as string,
+                            },
+                          ]}
+                        >
+                          <Input
+                            placeholder={t("products.enterGuaranteeName") as string}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={10}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "category"]}
+                          label={t("products.guaranteeCategory") as string}
+                          rules={[
+                            {
+                              required: true,
+                              message: t("products.guaranteeCategoryRequired") as string,
+                            },
+                          ]}
+                        >
+                          <Select
+                            placeholder={t("products.selectGuaranteeCategory") as string}
+                            showSearch
+                            optionFilterProp="children"
+                          >
+                            <Option value="warranty">{t("products.warranty") as string}</Option>
+                            <Option value="quality">{t("products.quality") as string}</Option>
+                            <Option value="service">{t("products.service") as string}</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={2}>
+                        <Form.Item label=" " style={{ marginBottom: 0 }}>
+                          <Button
+                            type="text"
+                            danger
+                            icon={<DeleteOutlined />}
+                            onClick={() => remove(name)}
+                            style={{ width: "100%" }}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "type"]}
+                      style={{ display: "none" }}
+                    >
+                      <Input value="guarantee" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "value"]}
+                      style={{ display: "none" }}
+                    >
+                      <Input value="" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "unit"]}
+                      style={{ display: "none" }}
+                    >
+                      <Input value="" />
+                    </Form.Item>
+                  </Card>
+                );
+              })}
             </>
           )}
         </Form.List>

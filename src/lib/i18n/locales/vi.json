@@ -47,7 +47,8 @@
     "seo": "Thông tin SEO",
     "categoryInfo": "Thông tin danh mục",
     "brandInfo": "Thông tin thương hiệu",
-    "remove": "Xóa"
+    "remove": "Xóa",
+    "language": "vi"
   },
   "upload": {
     "selectFile": "Chọn tệp",
@@ -222,7 +223,24 @@
     "imagesRequired": "Cần ít nhất một hình ảnh sản phẩm",
     "imagesTip": "Tải lên hình ảnh chất lượng cao (tối đa 10MB mỗi ảnh). Hình ảnh đầu tiên sẽ được sử dụng làm hình ảnh chính của sản phẩm.",
     "originalBasePrice": "Giá gốc",
-    "enterOriginalBasePrice": "Nhập giá gốc"
+    "enterOriginalBasePrice": "Nhập giá gốc",
+    "warrantyGuarantee": "Bảo hành & Cam kết",
+    "addGuarantee": "Thêm cam kết",
+    "warrantyInfo": "Cấu hình thông tin bảo hành và cam kết cho sản phẩm này",
+    "warrantyExample": "Ví dụ: Bảo hành phần cứng 9 tháng, đổi 1-1 trong 46 ngày",
+    "quickAddGuarantee": "Tùy chọn thêm cam kết nhanh",
+    "guaranteeName": "Tên cam kết",
+    "guaranteeCategory": "Danh mục",
+    "guaranteeNameRequired": "Vui lòng nhập tên cam kết",
+    "guaranteeCategoryRequired": "Vui lòng chọn danh mục cam kết",
+    "enterGuaranteeName": "Nhập tên cam kết",
+    "selectGuaranteeCategory": "Chọn danh mục cam kết",
+    "warranty": "Bảo hành",
+    "quality": "Chất lượng",
+    "service": "Dịch vụ",
+    "attributeType": "Loại thuộc tính",
+    "selectType": "Chọn loại",
+    "custom": "Tùy chỉnh"
   },
   "attributeCategories": {
     "display": "Màn hình",
@@ -402,8 +420,7 @@
       "status": "Trạng thái",
       "paymentStatus": "Thanh toán",
       "paymentMethod": "Phương thức thanh toán",
-      "date": "Ngày",
-      "items": "sản phẩm"
+      "date": "Ngày"
     },
     "status": {
       "pending": "Chờ xử lý",

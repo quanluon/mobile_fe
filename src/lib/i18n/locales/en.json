@@ -47,7 +47,8 @@
     "seo": "SEO Information",
     "categoryInfo": "Category Information",
     "brandInfo": "Brand Information",
-    "remove": "Remove"
+    "remove": "Remove",
+    "language": "en"
   },
   "upload": {
     "selectFile": "Select File",
@@ -224,7 +225,24 @@
     "imagesTip": "Upload high-quality images (max 10MB each). First image will be used as the main product image.",
     "originalBasePrice": "Original Base Price",
     "enterOriginalBasePrice": "Enter original base price",
-    "featuresRequired": "At least one feature is required"
+    "featuresRequired": "At least one feature is required",
+    "warrantyGuarantee": "Warranty & Guarantee",
+    "addGuarantee": "Add Guarantee",
+    "warrantyInfo": "Configure warranty and guarantee information for this product",
+    "warrantyExample": "Example: Hardware warranty 9 months, 1-to-1 exchange within 46 days",
+    "quickAddGuarantee": "Quick Add Guarantee Options",
+    "guaranteeName": "Guarantee Name",
+    "guaranteeCategory": "Category",
+    "guaranteeNameRequired": "Please enter guarantee name",
+    "guaranteeCategoryRequired": "Please select guarantee category",
+    "enterGuaranteeName": "Enter guarantee name",
+    "selectGuaranteeCategory": "Select guarantee category",
+    "warranty": "Warranty",
+    "quality": "Quality",
+    "service": "Service",
+    "attributeType": "Attribute Type",
+    "selectType": "Select type",
+    "custom": "Custom"
   },
   "attributeCategories": {
     "display": "Display",

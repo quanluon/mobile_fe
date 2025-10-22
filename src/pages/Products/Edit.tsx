@@ -1,34 +1,24 @@
-import {
-  ArrowLeftOutlined,
-  SaveOutlined,
-} from "@ant-design/icons";
-import {
-  App,
-  Button,
-  Card,
-  Form,
-  Space,
-  Spin,
-  Typography,
-} from "antd";
+import { ArrowLeftOutlined, SaveOutlined } from "@ant-design/icons";
+import { App, Button, Card, Form, Space, Spin, Typography } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductForm from "../../components/forms/ProductForm";
 import { useTranslation } from "../../hooks/useTranslation";
 import { productsApi } from "../../lib/api/products";
 import { useProductsStore } from "../../stores/products";
-import { 
-  handleApiValidationError, 
-  cleanVariantsAndAttributes 
+import {
+  handleApiValidationError,
+  cleanVariantsAndAttributes,
 } from "../../lib/utils/formHelpers";
 import { logger } from "../../lib/utils/logger";
-import type {
-  Product,
-  ProductAttribute,
-  ProductFormData,
-  ProductStatus,
-  ProductType,
-  ProductVariant,
+import {
+  ProductAttributeType,
+  type Product,
+  type ProductAttribute,
+  type ProductFormData,
+  type ProductStatus,
+  type ProductType,
+  type ProductVariant,
 } from "../../types";
 
 const { Title } = Typography;
@@ -72,7 +62,7 @@ const ProductEdit: React.FC = () => {
     try {
       setLoading(true);
       const product = await productsApi.getProductById(id);
-      const productData = product.data
+      const productData = product.data;
       setProduct(productData);
       setCurrentProduct(productData);
 
@@ -85,6 +75,7 @@ const ProductEdit: React.FC = () => {
           value: attr.value,
           unit: attr.unit || "",
           category: attr.category || "",
+          type: attr.type || ProductAttributeType.CUSTOM,
         })),
       }));
 
@@ -93,6 +84,7 @@ const ProductEdit: React.FC = () => {
         value: attr.value,
         unit: attr.unit || "",
         category: attr.category || "",
+        type: attr.type || ProductAttributeType.CUSTOM,
       }));
 
       // Populate form with existing data
@@ -136,11 +128,7 @@ const ProductEdit: React.FC = () => {
       form.resetFields();
       fetchProduct();
     }
-  }, [
-    id,
-    fetchProduct,
-    form,
-  ]);
+  }, [id, fetchProduct, form]);
 
   const handleSubmit = async (values: ProductEditFormData) => {
     if (!id) return;
@@ -149,7 +137,8 @@ const ProductEdit: React.FC = () => {
       setSubmitting(true);
 
       // Clean up variants and attributes
-      const { cleanVariants, cleanAttributes } = cleanVariantsAndAttributes(values);
+      const { cleanVariants, cleanAttributes } =
+        cleanVariantsAndAttributes(values);
 
       const updateData: Partial<ProductFormData> = {
         name: values.name,
@@ -188,11 +177,13 @@ const ProductEdit: React.FC = () => {
       navigate("/products");
     } catch (error: unknown) {
       logger.error({ error, productId: id }, "Failed to update product");
-      
+
       // Handle validation errors from backend
       const validationMessage = handleApiValidationError(error, form);
       if (validationMessage) {
-        messageApi.error(t("products.failedToUpdate") as string + ": " + validationMessage);
+        messageApi.error(
+          (t("products.failedToUpdate") as string) + ": " + validationMessage
+        );
       } else {
         messageApi.error(t("products.failedToUpdate") as string);
       }
@@ -206,7 +197,6 @@ const ProductEdit: React.FC = () => {
     form.resetFields();
     navigate(-1);
   };
-
 
   if (loading) {
     return (

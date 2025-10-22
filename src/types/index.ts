@@ -51,7 +51,15 @@ export const ProductType = {
 
 export type ProductType = typeof ProductType[keyof typeof ProductType];
 
+export const ProductAttributeType = {
+  CUSTOM: 'custom',
+  GUARANTEE: 'guarantee',
+} as const;
+
+export type ProductAttributeType = typeof ProductAttributeType[keyof typeof ProductAttributeType];
+
 export interface ProductAttribute {
+  type?: ProductAttributeType;
   name: string;
   value: string;
   unit?: string;

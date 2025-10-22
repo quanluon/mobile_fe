@@ -1,4 +1,5 @@
 import type { FormInstance } from 'antd';
+import { ProductAttributeType } from '../../types';
 
 /**
  * Handles API validation errors and sets them on the form
@@ -54,6 +55,7 @@ export const cleanVariantsAndAttributes = (values: any) => {
       value: attr.value,
       unit: attr.unit || "",
       category: attr.category || "",
+      type: attr.type || ProductAttributeType.CUSTOM,
     })),
   }));
 
@@ -62,6 +64,7 @@ export const cleanVariantsAndAttributes = (values: any) => {
     value: attr.value,
     unit: attr.unit || "",
     category: attr.category || "",
+    type: attr.type || ProductAttributeType.CUSTOM,
   }));
 
   return { cleanVariants, cleanAttributes };
