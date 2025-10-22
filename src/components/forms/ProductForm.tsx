@@ -405,7 +405,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       {/* Description */}
       <Card title={t("common.description") as string} className="mb-6">
         <Form.Item
-        required
+          required
           name="shortDescription"
           label={t("products.shortDescription") as string}
           rules={[
@@ -516,102 +516,110 @@ const ProductForm: React.FC<ProductFormProps> = ({
           {(fields, { remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => {
-                const attributeType = form.getFieldValue(["attributes", name, "type"]);
-                if (attributeType !== "custom" && attributeType !== undefined) return null;
-                
+                const attributeType = form.getFieldValue([
+                  "attributes",
+                  name,
+                  "type",
+                ]);
+                if (attributeType !== "custom" && attributeType !== undefined)
+                  return null;
+
                 return (
-                <Card key={key} size="small" className="mb-4">
-                  <Row gutter={[16, 16]}>
+                  <Card key={key} size="small" className="mb-4">
+                    <Row gutter={[16, 16]}>
                       <Col xs={24} md={5}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "name"]}
-                        label={t("products.attributeName") as string}
-                        rules={[
-                          {
-                            required: true,
-                            message: t(
-                              "products.attributeNameRequired"
-                            ) as string,
-                          },
-                        ]}
-                      >
-                        <Input
-                          placeholder={
-                            t("products.enterAttributeName") as string
-                          }
-                        />
-                      </Form.Item>
-                    </Col>
-                      <Col xs={24} md={5}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "value"]}
-                        label={t("products.attributeValue") as string}
-                        rules={[
-                          {
-                            required: true,
-                            message: t(
-                              "products.attributeValueRequired"
-                            ) as string,
-                          },
-                        ]}
-                      >
-                        <Input
-                          placeholder={
-                            t("products.enterAttributeValue") as string
-                          }
-                        />
-                      </Form.Item>
-                    </Col>
-                      <Col xs={24} md={3}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "unit"]}
-                        label={t("products.attributeUnit") as string}
-                      >
-                        <Input
-                          placeholder={t("products.enterUnit") as string}
-                        />
-                      </Form.Item>
-                    </Col>
-                      <Col xs={24} md={5}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "category"]}
-                        label={t("products.attributeCategory") as string}
-                      >
-                        <Select
-                          placeholder={t("products.selectCategory") as string}
-                          allowClear
-                          showSearch
-                          optionFilterProp="children"
+                        <Form.Item
+                          {...restField}
+                          name={[name, "name"]}
+                          label={t("products.attributeName") as string}
+                          rules={[
+                            {
+                              required: true,
+                              message: t(
+                                "products.attributeNameRequired"
+                              ) as string,
+                            },
+                          ]}
                         >
-                          {ATTRIBUTE_CATEGORIES.map((category) => (
-                            <Option key={category.value} value={category.value}>
-                              {
-                                t(
-                                  `attributeCategories.${category.value}`
-                                ) as string
-                              }
-                            </Option>
-                          ))}
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={2}>
-                      <Form.Item label=" " style={{ marginBottom: 0 }}>
-                        <Button
-                          type="text"
-                          danger
-                          icon={<DeleteOutlined />}
-                          onClick={() => remove(name)}
-                          style={{ width: "100%" }}
-                        />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Card>
+                          <Input
+                            placeholder={
+                              t("products.enterAttributeName") as string
+                            }
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={5}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "value"]}
+                          label={t("products.attributeValue") as string}
+                          rules={[
+                            {
+                              required: true,
+                              message: t(
+                                "products.attributeValueRequired"
+                              ) as string,
+                            },
+                          ]}
+                        >
+                          <Input
+                            placeholder={
+                              t("products.enterAttributeValue") as string
+                            }
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={3}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "unit"]}
+                          label={t("products.attributeUnit") as string}
+                        >
+                          <Input
+                            placeholder={t("products.enterUnit") as string}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={5}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "category"]}
+                          label={t("products.attributeCategory") as string}
+                        >
+                          <Select
+                            placeholder={t("products.selectCategory") as string}
+                            allowClear
+                            showSearch
+                            optionFilterProp="children"
+                          >
+                            {ATTRIBUTE_CATEGORIES.map((category) => (
+                              <Option
+                                key={category.value}
+                                value={category.value}
+                              >
+                                {
+                                  t(
+                                    `attributeCategories.${category.value}`
+                                  ) as string
+                                }
+                              </Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={2}>
+                        <Form.Item label=" " style={{ marginBottom: 0 }}>
+                          <Button
+                            type="text"
+                            danger
+                            icon={<DeleteOutlined />}
+                            onClick={() => remove(name)}
+                            style={{ width: "100%" }}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Card>
                 );
               })}
             </>
@@ -629,7 +637,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
         }
         className="mb-6"
         extra={
-          <Button type="dashed" icon={<PlusOutlined />} onClick={addGuaranteeAttribute}>
+          <Button
+            type="dashed"
+            icon={<PlusOutlined />}
+            onClick={addGuaranteeAttribute}
+          >
             {t("products.addGuarantee") as string}
           </Button>
         }
@@ -642,7 +654,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
             {t("products.warrantyExample") as string}
           </p>
         </div>
-        
+
         {/* Quick Add Guarantee Options */}
         <div className="mb-4">
           <Typography.Title level={5} className="mb-3">
@@ -655,7 +667,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
                   type="dashed"
                   size="small"
                   onClick={() => {
-                    const currentAttributes = form.getFieldValue("attributes") || [];
+                    const currentAttributes =
+                      form.getFieldValue("attributes") || [];
                     const newAttribute: Partial<ProductAttribute> = {
                       type: ProductAttributeType.GUARANTEE,
                       name: guarantee.description as string,
@@ -681,13 +694,21 @@ const ProductForm: React.FC<ProductFormProps> = ({
           {(fields, { remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => {
-                const attributeType = form.getFieldValue(["attributes", name, "type"]);
+                const attributeType = form.getFieldValue([
+                  "attributes",
+                  name,
+                  "type",
+                ]);
                 if (attributeType !== "guarantee") return null;
-                
+
                 return (
-                  <Card key={key} size="small" className="mb-4 border border-green-300 bg-green-50">
-                    <Row gutter={[16, 16]}>
-                      <Col xs={24} md={12}>
+                  <Card
+                    key={key}
+                    size="small"
+                    className="mb-4 border-2 border-green-300 bg-gradient-to-br from-green-50 to-white shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <Row gutter={[12, 16]}>
+                      <Col xs={24} md={8}>
                         <Form.Item
                           {...restField}
                           name={[name, "name"]}
@@ -695,16 +716,54 @@ const ProductForm: React.FC<ProductFormProps> = ({
                           rules={[
                             {
                               required: true,
-                              message: t("products.guaranteeNameRequired") as string,
+                              message: t(
+                                "products.guaranteeNameRequired"
+                              ) as string,
                             },
                           ]}
                         >
                           <Input
-                            placeholder={t("products.enterGuaranteeName") as string}
+                            placeholder={
+                              t("products.enterGuaranteeName") as string
+                            }
                           />
                         </Form.Item>
                       </Col>
-                      <Col xs={24} md={10}>
+                      <Col xs={24} md={6}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "value"]}
+                          label={t("products.guaranteeValue") as string}
+                          rules={[
+                            {
+                              required: true,
+                              message: t(
+                                "products.guaranteeValueRequired"
+                              ) as string,
+                            },
+                          ]}
+                        >
+                          <Input
+                            placeholder={
+                              t("products.enterGuaranteeValue") as string
+                            }
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={5}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "unit"]}
+                          label={t("products.guaranteeUnit") as string}
+                        >
+                          <Input
+                            placeholder={
+                              t("products.enterGuaranteeUnit") as string
+                            }
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={4}>
                         <Form.Item
                           {...restField}
                           name={[name, "category"]}
@@ -712,29 +771,39 @@ const ProductForm: React.FC<ProductFormProps> = ({
                           rules={[
                             {
                               required: true,
-                              message: t("products.guaranteeCategoryRequired") as string,
+                              message: t(
+                                "products.guaranteeCategoryRequired"
+                              ) as string,
                             },
                           ]}
                         >
                           <Select
-                            placeholder={t("products.selectGuaranteeCategory") as string}
+                            placeholder={
+                              t("products.selectGuaranteeCategory") as string
+                            }
                             showSearch
                             optionFilterProp="children"
                           >
-                            <Option value="warranty">{t("products.warranty") as string}</Option>
-                            <Option value="quality">{t("products.quality") as string}</Option>
-                            <Option value="service">{t("products.service") as string}</Option>
+                            <Option value="warranty">
+                              {t("products.warranty") as string}
+                            </Option>
+                            <Option value="quality">
+                              {t("products.quality") as string}
+                            </Option>
+                            <Option value="service">
+                              {t("products.service") as string}
+                            </Option>
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col xs={24} md={2}>
+                      <Col xs={24} md={1} className="flex items-center justify-center">
                         <Form.Item label=" " style={{ marginBottom: 0 }}>
                           <Button
                             type="text"
                             danger
                             icon={<DeleteOutlined />}
                             onClick={() => remove(name)}
-                            style={{ width: "100%" }}
+                            size="small"
                           />
                         </Form.Item>
                       </Col>
@@ -745,20 +814,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
                       style={{ display: "none" }}
                     >
                       <Input value="guarantee" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "value"]}
-                      style={{ display: "none" }}
-                    >
-                      <Input value="" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "unit"]}
-                      style={{ display: "none" }}
-                    >
-                      <Input value="" />
                     </Form.Item>
                   </Card>
                 );

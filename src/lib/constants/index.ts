@@ -63,10 +63,7 @@ export const GUARANTEE_ATTRIBUTES = [
     label: "Bảo hành phần cứng",
     defaultValue: "9",
     unit: "months",
-    description: {
-      en: "Hardware warranty period",
-      vi: "Thời gian bảo hành phần cứng",
-    },
+    description: "Thời gian bảo hành phần cứng",
   },
   {
     name: "exchange_policy",
@@ -74,10 +71,7 @@ export const GUARANTEE_ATTRIBUTES = [
     label: "1-to-1 Exchange",
     defaultValue: "46",
     unit: "days",
-    description: {
-      en: "1-to-1 exchange period for defects",
-      vi: "Thời gian đổi 1-1 khi có lỗi",
-    },
+    description: "Thời gian đổi 1-1 khi có lỗi",
   },
   {
     name: "buyback_rate",
@@ -85,10 +79,7 @@ export const GUARANTEE_ATTRIBUTES = [
     label: "Thu lại",
     defaultValue: "95",
     unit: "%",
-    description: {
-      en: "Buyback rate when no replacement available",
-      vi: "Tỷ lệ thu lại khi không có máy đổi",
-    },
+    description: "Tỷ lệ thu lại khi không có máy đổi",
   },
   {
     name: "battery_health",
