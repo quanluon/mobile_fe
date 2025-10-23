@@ -197,6 +197,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
+          className='h-screen overflow-auto'
         >
           {children}
         </Content>
